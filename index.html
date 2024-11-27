@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form id="resumeForm">
+      <fieldset>
+        <legend>Personal Information</legend>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required /><br />
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required /><br />
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" required /><br />
+        <label for="profilepicture">Profile Picture:</label>
+        <input
+          type="file"
+          id="profilepicture"
+          name="profilepicture"
+          accept="image/*"
+        />
+      </fieldset>
+      <fieldset>
+        <legend>Education</legend>
+        <textarea id="education" name="education" rows="4" required></textarea
+        ><br />
+      </fieldset>
+      <fieldset>
+        <legend>Experience</legend>
+        <textarea id="experience" name="experience" rows="4" required></textarea
+        ><br />
+      </fieldset>
+      <fieldset>
+        <legend>Skills</legend>
+        <textarea id="skills" name="skills" rows="4" required></textarea><br />
+      </fieldset>
+      <button type="submit">Generate Resume Below</button>
+    </form>
+    <div id="resumeOutput"></div>
+    <script>
+      document
+        .getElementById("resumeForm")
+        ?.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const profilepictureInput = document.getElementById("profilepicture");
+          const nameElement = document.getElementById("name");
+          const emailElement = document.getElementById("email");
+          const phoneElement = document.getElementById("phone");
+          const educationElement = document.getElementById("education");
+          const experienceElement = document.getElementById("experience");
+          const skillsElement = document.getElementById("skills");
+
+          if (
+            nameElement &&
+            emailElement &&
+            phoneElement &&
+            educationElement &&
+            experienceElement &&
+            skillsElement
+          ) {
+            const name = nameElement.value;
+            const email = emailElement.value;
+            const phone = phoneElement.value;
+            const education = educationElement.value;
+            const experience = experienceElement.value;
+            const skills = skillsElement.value;
+
+            const profilepictureFile = profilepictureInput.files?.[0];
+            const profilepictureURL = profilepictureFile
+              ? URL.createObjectURL(profilepictureFile)
+              : "";
+
+            const resumeOutput = `
+            <h2>Resume</h2>
+            ${profilepictureURL ? `<img class="profilepicture" src="${profilepictureURL}" alt="Profile Picture">`: ""}
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone Number:</strong> ${phone}</p>
+            <p><strong>Education:</strong> ${education}</p>
+           <p><strong>Work Experience:</strong> ${experience}</p>
+           <p><strong>Skills:</strong> ${skills}</p>
+          `;
+
+            const resumeOutputElement = document.getElementById("resumeOutput");
+            if (resumeOutputElement) {
+              resumeOutputElement.innerHTML = resumeOutput;
+            } else {
+              console.error("The resume output element is missing.");
+            }
+          } else {
+            console.error("One or more form elements are missing.");
+          }
+        });
+    </script>
+  </body>
+</html>
